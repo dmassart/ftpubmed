@@ -47,36 +47,40 @@ val remoteFiles =
     .toList
     .sorted
 
-val lastRemote = remoteFiles.last
-val remoteName = lastRemote._1
-val remoteDate = lastRemote._2.getTime
+if (remoteFiles.isEmpty)
+  println( colored(Console.RED) + "No remote file available!" )
+else {
+  val lastRemote = remoteFiles.last
+  val remoteName = lastRemote._1
+  val remoteDate = lastRemote._2.getTime
 
-print( colored(Console.GREEN) + "\nLast remote: ")
-println( s"${colored(Console.MAGENTA)}$remoteName${colored(Console.WHITE)} ($remoteDate)" )
-lastLocal match {
-  case None =>
-    println( colored(Console.RED) + "No local file available!" )
-  case Some((localName,localDate)) =>
-    println( s"${colored(Console.GREEN)}Last local : ${colored(Console.MAGENTA)}$localName${colored(Console.WHITE)} ($localDate)" )
-    val newFiles = remoteFiles.map(_._1).filter( remoteName => remoteName > localName )
-    if (newFiles.isEmpty)
-      println( s"${colored(Console.YELLOW)}No new remote file found!" )
-    else {
-      val size = newFiles.size
-      if (size == 1)
-        println( s"${colored(Console.YELLOW)}Found 1 new remote file: " )
-      else
-        println( s"${colored(Console.YELLOW)}Found $size new remote files: " )
-      print(colored(Console.GREEN))
-      newFiles.foreach( newFile => println( s"wget ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/$newFile" ) )
-      Thread.sleep(2500)
-      println(colored(Console.WHITE))
-      newFiles.foreach( newFile => {
-        import scala.sys.process.*
-        s"wget ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/$newFile"!!
-      })
+  print( colored(Console.GREEN) + "\nLast remote: ")
+  println( s"${colored(Console.MAGENTA)}$remoteName${colored(Console.WHITE)} ($remoteDate)" )
+  lastLocal match {
+    case None =>
+      println( colored(Console.RED) + "No local file available!" )
+    case Some((localName,localDate)) =>
+      println( s"${colored(Console.GREEN)}Last local : ${colored(Console.MAGENTA)}$localName${colored(Console.WHITE)} ($localDate)" )
+      val newFiles = remoteFiles.map(_._1).filter( remoteName => remoteName > localName )
+      if (newFiles.isEmpty)
+        println( s"${colored(Console.YELLOW)}No new remote file found!" )
+      else {
+        val size = newFiles.size
+        if (size == 1)
+          println( s"${colored(Console.YELLOW)}Found 1 new remote file: " )
+        else
+          println( s"${colored(Console.YELLOW)}Found $size new remote files: " )
+        print(colored(Console.GREEN))
+        newFiles.foreach( newFile => println( s"wget ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/$newFile" ) )
+        Thread.sleep(2500)
+        println(colored(Console.WHITE))
+        newFiles.foreach( newFile => {
+          import scala.sys.process.*
+          s"wget ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/$newFile"!!
+        })
+      }
     }
-}
+  }
 println(colored(Console.WHITE))
 
 def colored(color: String) = {
