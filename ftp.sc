@@ -76,11 +76,9 @@ else {
         newFiles.foreach( newFile => println( s"wget ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/$newFile" ) )
         Thread.sleep(2500)
         println(colored(Console.WHITE))
-        newFiles.foreach( newFile => {
-          //import scala.sys.process.*
-          //s"wget ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/$newFile"!!
+        newFiles.foreach( newFile => 
           os.proc("wget", s"ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/$newFile").spawn(stderr = os.Inherit)
-        })
+        )
       }
     }
   }
