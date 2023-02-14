@@ -1,3 +1,5 @@
+#!/usr/bin/env amm
+
 import $ivy.`commons-net:commons-net:3.6`
 import $ivy.`commons-io:commons-io:2.11.0`
 
@@ -75,8 +77,9 @@ else {
         Thread.sleep(2500)
         println(colored(Console.WHITE))
         newFiles.foreach( newFile => {
-          import scala.sys.process.*
-          s"wget ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/$newFile"!!
+          //import scala.sys.process.*
+          //s"wget ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/$newFile"!!
+          os.proc("wget", s"ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/$newFile").spawn(stderr = os.Inherit)
         })
       }
     }
