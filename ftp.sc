@@ -73,11 +73,11 @@ else {
         else
           println( s"${colored(Console.YELLOW)}Found $size new remote files: " )
         print(colored(Console.GREEN))
-        newFiles.foreach( newFile => println( s"wget ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/$newFile" ) )
+        newFiles.foreach( newFile => println( s"wget --passive-ftp ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/$newFile" ) )
         Thread.sleep(2500)
         println(colored(Console.WHITE))
         newFiles.foreach( newFile => 
-          os.proc("wget", s"ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/$newFile").spawn(stderr = os.Inherit)
+          os.proc("wget", "--passive-ftp", s"ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/$newFile").spawn(stderr = os.Inherit)
         )
       }
     }
