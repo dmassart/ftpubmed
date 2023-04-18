@@ -1,6 +1,6 @@
 #!/usr/bin/env amm
 
-import $ivy.`commons-net:commons-net:3.6`
+import $ivy.`commons-net:commons-net:3.9.0`
 import $ivy.`commons-io:commons-io:2.11.0`
 
 import java.io.File
